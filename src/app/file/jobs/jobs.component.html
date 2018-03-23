@@ -1,0 +1,46 @@
+<div class="container">
+  <div *ngIf="files.length>0 || filter !== ''; else noData">
+    <form class="form my-3" (ngSubmit)="onFilter(filter.value)" #filterForm="ngForm">
+      <div class="input-group">
+        <input type="text" class="form-control" id="filter"
+        placeholder="N° de expediente o descripción" #filter>
+        <span class="input-group-btn">
+          <button type="submit" class="btn btn-primary ml-0"> <i class="fa fa-filter" aria-hidden="true"></i> Filtrar</button>
+        </span>
+      </div>
+    </form>
+    <div class="row my-4">
+      <div class="col-md-4">
+        <label for="user">Asignar trabajos a:</label>
+        <input id="user" type="text" class="form-control" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
+        [inputFormatter]="formatter" />
+      </div>
+      <button type="button" class="btn btn-primary" (click)="onAssignment()">Asignar</button>
+    </div>
+    <div class="container-fluid">
+      <div class="list-group" *ngFor="let file of files">
+        <div class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" [checked]="status_change"  (change)="getFile($event,file)"
+            id="checkbox_{{file._id}}">
+            <label class="form-check-label" for="checkbox_{{file._id}}">
+              Número: {{ file.file_code }} - Estado: {{ file.status }} - Asignado a: {{ file.assigned? file.assigned.grado+' '+file.assigned.apellido : 'Sin Asignar' }} 
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3 mx-auto">
+        <ngb-pagination (pageChange)="change($event)" [maxSize]="5" [collectionSize]="size"
+        [(page)]="page" aria-label="Default pagination"></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noData>
+  <h5 class="text-center">No hay expedientes cargados.</h5>
+</ng-template>
+
+<ng-template #rt let-r="result" let-t="term">
+  {{ r.grado }} - {{ r.apellido }}
+</ng-template>

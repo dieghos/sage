@@ -1,0 +1,89 @@
+<h2 class="text-center">Detalle</h2>
+
+
+<form [formGroup]="fileForm" (ngSubmit)="onSubmit()">
+  <div class="container">
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label for="file_code">N&uacute;mero de expediente (*)</label>
+        <input class="form-control" type="text" formControlName="file_code">
+        <control-messages [control]="fileForm.controls.file_code"></control-messages>
+      </div>
+      <div class="form-group col-md-12">
+        <label for="description">Descripci&oacute;n (*)</label>
+        <textarea class="form-control" type="text" formControlName="description"
+        rows="3"></textarea>
+        <control-messages [control]="fileForm.controls.description"></control-messages>
+      </div>
+      <div class="form-group col-md-12">
+        <label for="etx">ETX N&deg;</label>
+        <input class="form-control" type="text" formControlName="etx">
+        <control-messages [control]="fileForm.controls.etx"></control-messages>
+      </div>
+      <div class="form-group col-md-12">
+        <label for="time_limit">Plazo de entrega</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="dd-mm-yyyy"
+          formControlName="time_limit" name="time_limit" ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+              <i class="fas fa-calendar-alt" style="cursor:pointer"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-12" *ngIf="file?.images_path?.length>0; else noData">
+        <label for="time_limit">Imagenes</label>
+        <ngb-carousel >
+          <ng-template ngbSlide *ngFor="let image of file.images_path">
+            <p>Haga click en la imagen para eliminarla.</p>
+            <img src="./{{ image }}" (click)="showModal(images,image)" style="width:100%">
+          </ng-template>
+        </ngb-carousel>
+      </div>
+
+
+      <div class="form-group col-md-12">
+        <label for="images">Im&aacute;genes</label>
+        <div class="input-group mb-3">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input"
+            id="inputFile" placeholder="Examinar" #fileInput
+            (change)="handleFileInput($event.target.files)" multiple>
+            <label class="custom-file-label" for="inputFile">{{ label }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-12">
+        <label for="comments">Comentarios</label>
+        <textarea class="form-control" type="text" formControlName="comments"
+        rows="3"></textarea>
+      </div>
+      <div class="form-group col-md-12">
+        <p class="font-italic">Los campos marcados con (*) son obligatorios.</p>
+      </div>
+      <div class="mx-auto">
+        <button type="submit" class="btn btn-primary" [disabled]="fileForm.pristine">
+          <i class="fas fa-edit" aria-hidden="true"></i> Actualizar
+        </button>
+        <a  routerLink="../" class="btn btn-light">
+          <i class="fas fa-arrow-left" aria-hidden="true"></i> Volver
+        </a>
+      </div>
+    </div>
+  </div>
+</form>
+
+<ng-template #images let-c="close" let-d="dismiss">
+  <div class="modal-body">
+    <p class="text-center">¿Desea eliminar la imagen?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="deletePhoto()">Si</button>
+    <button type="button" class="btn btn-secondary" (click)="c('Close click')">No</button>
+  </div>
+</ng-template>
+
+<ng-template #noData>
+  <h5 class="text-center">No hay imagenes cargadas.</h5>
+</ng-template>

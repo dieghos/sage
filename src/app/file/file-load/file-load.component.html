@@ -1,0 +1,63 @@
+<h2 class="text-center">Carga de expediente</h2>
+
+<form [formGroup]="fileForm" (ngSubmit)="onSubmit()">
+  <div class="container">
+    <div class="row">
+      <div class="form-group col-md-12">
+        <label for="file_code">N&uacute;mero de expediente (*)</label>
+        <input class="form-control" type="text" formControlName="file_code">
+        <control-messages [control]="fileForm.controls.file_code"></control-messages>
+      </div>
+      <div class="form-group col-md-12">
+        <label for="description">Descripci&oacute;n (*)</label>
+        <textarea class="form-control" type="text" formControlName="description"
+        rows="3"></textarea>
+        <control-messages [control]="fileForm.controls.description"></control-messages>
+      </div>
+      <div class="form-group col-md-12">
+        <label for="etx">ETX N&deg;</label>
+        <input class="form-control" type="text" formControlName="etx">
+        <control-messages [control]="fileForm.controls.etx"></control-messages>
+      </div>
+      <div class="form-group col-md-12">
+        <label for="time_limit">Plazo de entrega</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="dd-mm-yyyy"
+          formControlName="time_limit" name="time_limit" ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+              <i class="fas fa-calendar-alt" style="cursor:pointer"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-12">
+        <label for="images">Im&aacute;genes</label>
+        <div class="input-group mb-3">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input"
+            id="inputFile" placeholder="Examinar" #fileInput
+            (change)="handleFileInput($event.target.files)" multiple>
+            <label class="custom-file-label" for="inputFile">{{ label }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-12">
+        <label for="comments">Comentarios</label>
+        <textarea class="form-control" type="text" formControlName="comments"
+        rows="3"></textarea>
+      </div>
+      <div class="form-group col-md-12">
+        <p class="font-italic">Los campos marcados con (*) son obligatorios.</p>
+      </div>
+      <div class="mx-auto">
+        <button type="submit" class="btn btn-primary" [disabled]="fileForm.pristine">
+          <i class="fas fa-plus-circle" aria-hidden="true"></i> Crear
+        </button>
+        <button type="reset" class="btn btn-light" (click)="reset()">
+          <i class="fas fa-sync-alt" aria-hidden="true"></i> Restablecer
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

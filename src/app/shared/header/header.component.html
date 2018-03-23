@@ -1,0 +1,67 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <a class="navbar-brand" href="#">
+    <img src="/assets/brand/wise.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    SAGE
+  </a>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav ml-0">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/sage/index">Inicio</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated()">
+        <a class="nav-link" routerLink="/app">Gesti&oacute;n de expedientes</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" routerLinkActiveOptions="{exact:true}"
+      *ngIf="isAuthenticated() && getRole()">
+        <a class="nav-link" routerLink="/users/index">Usuarios</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact:
+true}" *ngIf="isAuthenticated() && getBoss()">
+        <a class="nav-link" routerLink="/tasks" >Asignar trabajos</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto mr-0" id="auth">
+      <li class="nav-item" *ngIf="isAuthenticated() && hasTasks()"
+      [ngbPopover]="popContent" placement="bottom" popoverTitle="Trabajos" #p="ngbPopover" container="body">
+        <a class="nav-link">
+          <span class="fa-layers fa-fw">
+            <i class="far fa-envelope" data-fa-transform="grow-2 left-6"></i>
+            <span class="fa-layers-counter fa-layers-bottom-right fa-2x">
+              {{user.tasks.length}}
+            </span>
+          </span>
+        </a>
+      </li>
+      <li class="nav-item dropdown"  ngbDropdown placement="bottom-right"
+       *ngIf="isAuthenticated();else guest">
+        <a class="nav-link dropdown-toggle"  id="navbarDropdownMenuLink" ngbDropdownToggle>
+          <img src="{{ user.photo }}" alt="" class="rounded-circle" width="30" height="30" >
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" ngbDropdownMenu>
+          <a class="dropdown-item" routerLink="./users/profile"><i class="fas fa-user"></i> Perfil</a>
+          <a class="dropdown-item" routerLink="./users/change-password"><i class="fas fa-key"></i>
+            Cambiar Contrase&ntilde;a
+          </a>
+          <a class="dropdown-item" (click)="logout()"><i class="fas fa-power-off"></i> Cerrar Sesi&oacute;n</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<ng-template #authentication>
+  <sage-auth [modalRef]="modalRef"></sage-auth>
+</ng-template>
+
+<ng-template #guest>
+  <li class="nav-item">
+    <a class="nav-link" (click)="open(authentication)">Iniciar Sesi&oacute;n</a>
+  </li>
+</ng-template>
+
+<ng-template #popContent>
+  <a *ngFor="let task of tasks" [routerLink]="['./app/file',task.job_id]">
+    <p>Se le ha asignado el expediente N&deg; {{ task.file_code }}</p>
+  </a>
+</ng-template>

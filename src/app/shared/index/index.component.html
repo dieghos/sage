@@ -1,0 +1,39 @@
+<div class="text-center" style="{height:50%}">
+  <img src="assets/brand/logo.png"  class="img-fluid" alt="">
+</div>
+<div class="container" *ngIf="isAuthenticated();else guest">
+  <h3> Requerimientos con plazo:</h3>
+  <hr>
+  <div class="row">
+    <div class="col-md-6">
+      <h5>Vencen hoy:</h5>
+      <div class="list-group" *ngFor="let file of files">
+        <a href="#" class="list-group-item list-group-item-danger flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ file.file_code }}</h5>
+            <small>Ingres&oacute; {{since(file.entry_date)}}</small>
+          </div>
+          <p class="mb-1">{{ file.description }}</p>
+          <small>{{ file.status }}</small>
+        </a>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h5>Vencen ma&ntilde;ana:</h5>
+      <div class="list-group" *ngFor="let file of tomorrow_files">
+        <a href="#" class="list-group-item list-group-item-warning flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ file.file_code }}</h5>
+            <small>Ingres&oacute; {{since(file.entry_date)}}</small>
+          </div>
+          <p class="mb-1">{{ file.description }}</p>
+          <small>{{ file.status }}</small>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #guest>
+    <h1 class="text-center">Sistema de Gesti&oacute;n de Expedientes</h1>
+</ng-template>

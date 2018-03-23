@@ -1,0 +1,26 @@
+<h2 class="text-center">Lista de Usuarios</h2>
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Usuario</th>
+        <th scope="col">Permisos</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor = "let user of users,  let i = index">
+        <th scope="row">{{i+1}}</th>
+        <td>{{ user.username }}</td>
+        <td>{{ user.roles }}</td>
+        <td>
+          <a class="btn btn-primary btn-sm"  placement="bottom" ngbTooltip="Editar"
+          [routerLink]="['/users/edit',user._id]">
+            <i class="fas fa-edit"></i>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

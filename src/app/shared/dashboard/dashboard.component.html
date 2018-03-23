@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="./load" routerLinkActive="active">Cargar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="./file" routerLinkActive="active">Lista</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="./status" routerLinkActive="active">Cambiar estado</a>
+        </li>
+      </ul>
+    </nav>
+    <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
